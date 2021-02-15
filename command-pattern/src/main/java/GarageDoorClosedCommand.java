@@ -10,6 +10,6 @@ public class GarageDoorClosedCommand implements Command {
     }
 
     public void undo() {
-
+        garageDoor.open();
     }
 }

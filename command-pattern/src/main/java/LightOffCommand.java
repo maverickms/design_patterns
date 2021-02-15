@@ -9,10 +9,10 @@ public class LightOffCommand implements Command {
     }
 
     public void execute() {
-        light.on(); // receiver action
+        light.off(); // receiver action
     }
 
     public void undo() {
-
+        light.on();
     }
 }

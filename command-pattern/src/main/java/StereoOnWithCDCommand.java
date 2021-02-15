@@ -12,6 +12,6 @@ public class StereoOnWithCDCommand implements Command {
     }
 
     public void undo() {
-
+        stereo.off();
     }
 }

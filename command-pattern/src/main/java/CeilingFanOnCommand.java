@@ -10,6 +10,6 @@ public class CeilingFanOnCommand  implements Command {
     }
 
     public void undo() {
-
+        fan.off();
     }
 }

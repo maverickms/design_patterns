@@ -1,14 +1,13 @@
 // Invoker
 // holds the commands and asks them to carry out the request by calling the execute method
 
-import java.util.Arrays;
-
-public class RemoteControlInvoker {
+public class RemoteControlWithUndo {
     Command[] onCommands;
     Command[] offCommands;
+    Command undoCommand;
     int numberOfCommands = 5;
 
-    public RemoteControlInvoker() {
+    public RemoteControlWithUndo() {
         onCommands = new Command[numberOfCommands];
         offCommands = new Command[numberOfCommands];
 
@@ -18,6 +17,8 @@ public class RemoteControlInvoker {
             onCommands[i] = noCommand;
             offCommands[i] = noCommand;
         }
+
+        undoCommand = noCommand;
     }
 
     public void setCommand(int slot, Command onCommand, Command offCommand) {
@@ -27,10 +28,16 @@ public class RemoteControlInvoker {
 
     public void onButtonWasPushed(int slot) {
         onCommands[slot].execute();
+        undoCommand = onCommands[slot];
     }
 
     public void offButtonWasPushed(int slot) {
         offCommands[slot].execute();
+        undoCommand = offCommands[slot];
+    }
+
+    public void undoButtonWasPushed() {
+        undoCommand.undo();
     }
 
     @Override
@@ -39,11 +46,15 @@ public class RemoteControlInvoker {
         stringBuffer.append("\n-------- Remote Control ---------");
         for (int i=0; i<numberOfCommands; i++) {
             stringBuffer.append("\n[slot ")
-                    .append(i).append("]\t")
+                    .append(i)
+                    .append("]\t")
                     .append(onCommands[i].getClass().getName())
                     .append("\t")
                     .append(offCommands[i].getClass().getName());
         }
+
+        stringBuffer.append("\nUndo Command: ")
+                .append(undoCommand.getClass().getName());
         stringBuffer.append("\n---------------------------------");
 
         return stringBuffer.toString();
